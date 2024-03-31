@@ -41,6 +41,6 @@ async def d20(ctx, luck=0):
 async def init(ctx, player_amount):
     pass
 
-TOKEN = "MTIyMzk2Nzk0ODAyNTIzNzUwNA.GJD1aq.fN831iWHFIT8Gn4S6e43SSlJgdBtQQDFce8dYA"
+TOKEN = ""
 
 bot.run(TOKEN)
