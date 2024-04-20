@@ -1,13 +1,16 @@
 import discord
+import classs
 from discord.ext import commands
 import random
 import logging
+from data import db_session
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler()
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+db_session.global_init("db/players.db")
 
 intents = discord.Intents.default()
 intents.members = True
@@ -41,6 +44,19 @@ async def d20(ctx, luck=0):
 async def init(ctx, player_amount):
     pass
 
+
+async def save(character):
+    pass
+
+
+async def load(character):
+    pass
+
+
+async def create(client):
+    character = classs.Character(name=input(), about=input(), chr_class=int(input()), skills=[random.randint(9, 15) for i in range(6)])
+
+
 TOKEN = ""
 
-bot.run(TOKEN)
+# bot.run(TOKEN)
