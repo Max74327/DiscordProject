@@ -2,6 +2,7 @@ import discord
 import classs
 from discord.ext import commands
 import random
+import sqlite3
 import logging
 from data import db_session
 
@@ -11,16 +12,14 @@ handler = logging.StreamHandler()
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 db_session.global_init("db/players.db")
+con = sqlite3.connect("db/players.db")
+cur = con.cursor()
 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
-
+active_characters = {}
 bot = commands.Bot(command_prefix='#', intents=intents)
-
-
-class Character:
-    pass
 
 
 @bot.command(name='roll')
@@ -45,16 +44,35 @@ async def init(ctx, player_amount):
     pass
 
 
-async def save(character):
-    pass
+def start(ctx):
+    active_characters[ctx.message.author.id] = 'master'
 
 
-async def load(character):
-    pass
+async def save(ctx):
+    try:
+        active_characters[ctx.messege.author.id]
+    except Exception:
+        await ctx.send('You are not in the session')
+        return
+    db_sess = db_session.create_session()
+    db_sess.add(active_characters[ctx.messege.author.id].get_db_copy())
+    db_sess.commit()
+    del active_characters[ctx.messege.author.id]
 
 
-async def create(client):
-    character = classs.Character(name=input(), about=input(), chr_class=int(input()), skills=[random.randint(9, 15) for i in range(6)])
+async def load(ctx, character):
+    result = cur.execute(f"""SELECT * FROM players WHERE name = {character}""").fetchall()
+    active_characters[ctx.messege.author.id] = classs.Character(*result[1:])
+
+
+async def create(ctx):
+    await ctx.send('Enter character`s name')
+    name = input()  # ___________________________________________________________!!!! Find the way this should work !!!!
+    result = cur.execute("""SELECT name FROM players""").fetchall()
+    while name in result:
+        name = input() # ________________________________________________________!!!! Find the way this should work !!!!
+    everithing_else = []
+    active_characters[ctx.messege.author.id] = classs.Character(name=name, *everithing_else)
 
 
 TOKEN = ""
