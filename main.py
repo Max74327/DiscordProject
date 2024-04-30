@@ -371,7 +371,7 @@ async def check(ctx, attribute, luck=0):
 
 @bot.command(name='use')
 async def use(ctx, item):
-    l =LANG.use(item)
+    l = LANG.use(item)
     player = ctx.author.name
     if player in adding:
         await ctx.send(l[0])
@@ -400,7 +400,7 @@ async def use(ctx, item):
 
 @bot.command(name='throw')
 async def throw(ctx, item):
-    l =LANG.throw(item)
+    l = LANG.throw(item)
     # в use могут быть когда-то в будующем взаимодействия с характеристиками
     player = ctx.author.name
     if player in adding:
